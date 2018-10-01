@@ -5,7 +5,7 @@ import { NineToTen, TenToEleven, ElevenToTwelve, TwelveToOne, OneToTwo, TwoToThr
 import Modal from 'react-modal';
 import './App.css';
 
-class Appointment extends React.Component {
+class Appointment extends Component {
   componentWillMount() {
     Modal.setAppElement('body');
   }
