@@ -48,6 +48,8 @@ export class NineToTen extends Component {
     }
   }
 
+export default NineToTen;
+
 export class TenToEleven extends React.Component {
 constructor(props) {
     super(props);

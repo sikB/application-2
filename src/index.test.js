@@ -12,36 +12,32 @@ describe('NineToTen', () => {
     phoneNumber: '',
     name: ''
   }
-  // let onClickFunc, form;
-
-  // beforeEach(function() {
-  //   onClickFunc = jest.getMockFunction();
-  //   form = TestUtils.renderIntoDocument(
-  //     <NineToTen onClick={onClickFunc} />
-  //   );
   it('renders without crashing', () => {
-    const app = shallow(<NineToTen />);
-    expect(1).toEqual(1);
+    const div = document.createElement('div');
+    ReactDOM.render(NineToTen, div)
+  });
+
+  describe('when form isnt filled out', () =>{
+    let wrapper;
+    beforeAll(() => {
+      wrapper = mount(<NineToTen {...state}/>);
+    });
+
+    it('button should have green color when no number and no name is selected', () => {
+      expect(wrapper.find('button.mr-1').props().className).toBe('btn btn-success mr-1');
+    })
+  });
+
+  describe('when user clicks the appointment button', ()=>{
+    Modal.setAppElement('body');
+
+    it('should trigger the modal', () => {
+      const handleModal = jest.fn();
+      const wrapper = shallow(<NineToTen handleModal={handleModal} />)
+      wrapper.setState({showModal: true});
+      wrapper.find('button.btn.btn-success.mr-1').simulate('click');
+      expect(handleModal).toHaveBeenCalled;
+
+    })
   });
 });
-
-// test('NineToTen opens modal on click', () => {
-//   const modalOpen = shallow(<NineToTen/>)
-//   expect(modalOpen.showModal()).toEqual(false);
-//   modalOpen.find('button').simulate('change');
-//   expect(modalOpen.showModal()).toEqual(true);
-// })
-// test('Application', () => {
-//   let mockFetch = jest.fn();
-//   const wrapper = mount(<Appointment fetch={mockFetch}/> );
-//   expect(wrapper).toBeDefined();
-//   expect(mockFetch).toHaveBeenCalled();
-  // expect(mockFetch.mock.calls[0].toEqual(['data']));
-  // it('renders without crashing', () => {
-  //   const div = document.createElement('div');
-  //   ReactDOM.render(<Appointment />, div)
-  // })
-// });
-// let button = TestUtils.findRenderedDOMComponentWithClass(form, 'btn btn-success mr-1');
-// TestUtils.Simulate.click(button);
-// expect(onClickFunc).toBeCalled()
