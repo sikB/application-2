@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('NineToTen', () => {
-  const state = {
+  let state = {
     showModal: false,
     phoneNumber: '',
     name: ''
@@ -26,18 +26,39 @@ describe('NineToTen', () => {
     it('button should have green color when no number and no name is selected', () => {
       expect(wrapper.find('button.mr-1').props().className).toBe('btn btn-success mr-1');
     })
+
+    it('should have default state if there is no data stored', () => {
+      expect(state.showModal).toBe(false);
+      expect(state.name).toBe('');
+      expect(state.phoneNumber).toBe('');
+    })
   });
 
-  describe('when user clicks the appointment button', ()=>{
+  describe('toggle modal', ()=>{
     Modal.setAppElement('body');
+    const handleModal = jest.fn();
+    const wrapper = shallow(<NineToTen handleModal={handleModal} />)
 
-    it('should trigger the modal', () => {
-      const handleModal = jest.fn();
-      const wrapper = shallow(<NineToTen handleModal={handleModal} />)
-      wrapper.setState({showModal: true});
+    it('modal should toggle', () => {
       wrapper.find('button.btn.btn-success.mr-1').simulate('click');
       expect(handleModal).toHaveBeenCalled;
+    });
+  });
 
-    })
+  describe('when name and phone is entered', ()=>{
+    let wrapper;
+    beforeAll(() => {
+      wrapper = mount(<NineToTen {...state}/>);
+    });
+
+    it('button background should be red', () => {
+      wrapper.setState({name: 'test'});
+      wrapper.setState({phoneNumber: 123-123-1234});
+
+      expect(wrapper.find('button.mr-1').props().className).toBe('btn btn-danger mr-1');
+
+      expect(wrapper.state.name).not.toBe("");
+      expect(wrapper.state.phoneNumber).not.toBe("");
+    });
   });
 });

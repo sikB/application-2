@@ -41,7 +41,7 @@ export class NineToTen extends Component {
               </label>
               <input type="submit" value="Submit"/>
             </form>
-            <button onClick={this.handleModal}>Close</button>
+            <button className="close-button" onClick={this.handleModal}>Close</button>
           </Modal>
       </button>
       );
